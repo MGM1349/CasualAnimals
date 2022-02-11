@@ -8,13 +8,15 @@ using UnityEngine;
 /// </summary>
 public class CropManager : MonoBehaviour
 {
-    public Dictionary<string, GameObject> cropIndex;
+    //public Dictionary<string, GameObject> cropIndex;
     public List<Field> fields;
+    private GameObject currentCrop;
+    public GameObject cropPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentCrop = null;
     }
 
     // Update is called once per frame
@@ -24,12 +26,27 @@ public class CropManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds a crop from the dictionary to a given field.
+    /// Adds a crop from the given crops to a specfic position within a field.
     /// </summary>
-    /// <param name="key">The key for the dictionary.</param>
     /// <param name="fieldNumber">The field number tha tthe crop will be added to</param>
-    public void CreateCropToField(string key, int fieldNumber)
+    /// <param name="fieldPosition">The field position the crop is going into</param>
+    public void CreateCropToField(int fieldNumber, int fieldPosition)
     {
-        fields[fieldNumber].CurrentCrop = cropIndex[key].GetComponent<Crop>();
+        currentCrop = Instantiate(cropPrefab);
+        fields[fieldNumber].SetCrop(currentCrop.GetComponent<Crop>(), fieldPosition);
+        
+        
+    }
+
+
+    /// <summary>
+    /// Removes certain crops from specific positions in the field
+    /// </summary>
+    /// <param name="fieldNumber">The field number tha tthe crop will be added to</param>
+    /// <param name="fieldPosition">The field position the crop is going into</param>
+    /// <returns>the amount of crop harvested</returns>
+    public int RemoveCropToField(int fieldNumber, int fieldPosition)
+    {
+        return fields[fieldNumber].RemoveCrop(fieldPosition);
     }
 }

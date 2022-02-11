@@ -12,36 +12,31 @@ public class Field : MonoBehaviour
     private float growTimer = 0;
     private Crop currentCrop;
     public List<Image> cropImages;
+    public Sprite soil;
+    public Crop[] fieldPositions;
 
-    public Crop CurrentCrop { get => currentCrop; set => currentCrop = value; }
     public float GrowTimer { get => growTimer; set => growTimer = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        fieldPositions = new Crop[9];
     }
 
     // Update is called once per frame
     void Update()
     {
-        //growTimer += Time.deltaTime;
-        //
-        //if(growTimer >  (currentCrop.growthTime / 3 * 2))
-        //{
-        //  UpdateCropImage();
-        //  UpdateGameImages();
-        //}
-        //else if(growTimer > (currentCrop.growthTime / 3))
-        //{
-        //  UpdateCropImage();
-        //  UpdateGameImages();
-        //}
-        //if(growTimer > (currentCrop.growthTime){
-        //  UpdateCropImage();
-        //  UpdateGameImages();
-        //  currentCrop.harvestable = true;
-        //}
+        for(int i = 0; i < fieldPositions.Length; i++)
+        {
+            if(fieldPositions[i] != null)
+            {
+                cropImages[i].sprite = fieldPositions[i].GetCurrentCropCycleImage();
+            }
+            else
+            {
+                cropImages[i].sprite = soil;
+            }
+        }
     }
 
     /// <summary>
@@ -62,5 +57,35 @@ public class Field : MonoBehaviour
             cropImages[i].sprite = currentCrop.GetCurrentCropCycleImage();
         }
     }
+
+    public Crop GetCropAtFieldPosition(int fieldPosition)
+    { 
+        return fieldPositions[fieldPosition];
+    }
+
+    /// <summary>
+    /// Sets a crop to a position withing a field
+    /// </summary>
+    /// <param name="crop">The incoming crop that will go to a position in the field</param>
+    /// <param name="fieldPosition">The field position where the crop will be planted at</param>
+    public void SetCrop(Crop crop, int fieldPosition)
+    {
+        fieldPositions[fieldPosition] = crop;
+    }
+
+    /// <summary>
+    /// Removes a crop from a specific field position
+    /// </summary>
+    /// <param name="fieldPosition">The position of the field the crop was harvested from</param>
+    /// <returns>The amount a crop was harvested for</returns>
+    public int RemoveCrop(int fieldPosition)
+    {
+        int cropAmount = fieldPositions[fieldPosition].GetHarvestAmount();
+        fieldPositions[fieldPosition].Delete();
+        fieldPositions[fieldPosition] = null;
+        return cropAmount;
+    }
+
+
 
 }
