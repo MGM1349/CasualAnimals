@@ -13,6 +13,7 @@ public class Crop : MonoBehaviour
 
     public string Name; // the name of the crop
     public int growthTime; // the amount of time for the crop to grow
+    private int pos;
     public List<Sprite> cropCycles; //images for the different crop growth cycles
     public int harvestAmount; //The amount of crop that will be awarded to a player when a crop is harvested
     public bool harvestable = false; //can the crop be harvestable
@@ -26,6 +27,19 @@ public class Crop : MonoBehaviour
         currentCropCycle = 0;
         currentGrowthTimer = 0;
         startGrowth = false;
+        pos = 0;
+    }
+
+    public int Pos
+    {
+        get
+        {
+            return pos;
+        }
+        set
+        {
+            pos = value;
+        }
     }
 
     // Update is called once per frame

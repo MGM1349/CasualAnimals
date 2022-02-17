@@ -10,10 +10,20 @@ public class PlayerScript : MonoBehaviour
     Vector3 movement;
     float moveSpeed = 2.0f;
 
+    int currentCropStand = -1;
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log(GameManager.currentState);
+    }
+
+    public int CurrentCropStand
+    {
+        get
+        {
+            return currentCropStand;
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +48,7 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        //axis movement
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
 
@@ -46,5 +57,28 @@ public class PlayerScript : MonoBehaviour
         movement = movement * moveSpeed * Time.deltaTime;
 
         transform.position += movement;
+
+        //flipping for movement
+        if(moveHorizontal != 0)
+        {
+            transform.localScale = new Vector2(-moveHorizontal * 1.2f, transform.localScale.y);
+        }
+
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CropPlot")
+        {
+            currentCropStand = int.Parse(collision.name.Substring(collision.name.Length - 1)) - 1;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CropPlot")
+        {
+            currentCropStand = -1;
+        }
     }
 }

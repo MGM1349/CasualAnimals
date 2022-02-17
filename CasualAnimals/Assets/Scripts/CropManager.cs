@@ -34,8 +34,6 @@ public class CropManager : MonoBehaviour
     {
         currentCrop = Instantiate(cropPrefab);
         fields[fieldNumber].SetCrop(currentCrop.GetComponent<Crop>(), fieldPosition);
-        
-        
     }
 
 

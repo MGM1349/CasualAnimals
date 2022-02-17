@@ -14,6 +14,8 @@ public class Field : MonoBehaviour
     public List<Image> cropImages;
     public Sprite soil;
     public Crop[] fieldPositions;
+    public bool setCropPos = false;
+
 
     public float GrowTimer { get => growTimer; set => growTimer = value; }
 
@@ -26,7 +28,7 @@ public class Field : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(int i = 0; i < fieldPositions.Length; i++)
+        for (int i = 0; i < fieldPositions.Length; i++)
         {
             if(fieldPositions[i] != null)
             {
@@ -71,6 +73,7 @@ public class Field : MonoBehaviour
     public void SetCrop(Crop crop, int fieldPosition)
     {
         fieldPositions[fieldPosition] = crop;
+        crop.Pos = fieldPosition;
     }
 
     /// <summary>
@@ -85,7 +88,4 @@ public class Field : MonoBehaviour
         fieldPositions[fieldPosition] = null;
         return cropAmount;
     }
-
-
-
 }
