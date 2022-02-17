@@ -215,7 +215,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.039769113, y: -0.06629902}
+  m_Offset: {x: 0.08887431, y: -0.72447336}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -226,7 +226,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.419957, y: 2.1091685}
+  m_Size: {x: 0.575354, y: 0.32129216}
   m_EdgeRadius: 0
 --- !u!212 &310939558
 SpriteRenderer:
@@ -526,6 +526,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cropManager: {fileID: 503939126}
   eggplantsHarvested: {fileID: 935041806}
+  cropPosGrowing: 
+  playerScript: {fileID: 0}
 --- !u!114 &503939126
 MonoBehaviour:
   m_ObjectHideFlags: 0
