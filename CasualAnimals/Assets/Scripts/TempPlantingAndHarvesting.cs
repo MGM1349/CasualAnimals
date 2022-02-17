@@ -35,6 +35,6 @@ public class TempPlantingAndHarvesting : MonoBehaviour
             }
         }
 
-        eggplantsHarvested.text = "Eggplants Harvested: " + amountHarvested;
+        eggplantsHarvested.text = amountHarvested.ToString();
     }
 }
