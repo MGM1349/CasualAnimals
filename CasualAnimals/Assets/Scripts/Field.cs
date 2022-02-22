@@ -11,7 +11,7 @@ public class Field : MonoBehaviour
 {
     private float growTimer = 0;
     private Crop currentCrop;
-    public List<Image> cropImages;
+    public List<GameObject> cropImages;
     public Sprite soil;
     public Crop[] fieldPositions;
     public bool setCropPos = false;
@@ -32,11 +32,11 @@ public class Field : MonoBehaviour
         {
             if(fieldPositions[i] != null)
             {
-                cropImages[i].sprite = fieldPositions[i].GetCurrentCropCycleImage();
+                cropImages[i].GetComponent<SpriteRenderer>().sprite = fieldPositions[i].GetCurrentCropCycleImage();
             }
             else
             {
-                cropImages[i].sprite = soil;
+                cropImages[i].GetComponent<SpriteRenderer>().sprite = soil;
             }
         }
     }
@@ -56,7 +56,7 @@ public class Field : MonoBehaviour
     {
         for (int i = 0; i < cropImages.Count; i++)
         {
-            cropImages[i].sprite = currentCrop.GetCurrentCropCycleImage();
+            cropImages[i].GetComponent<SpriteRenderer>().sprite = currentCrop.GetCurrentCropCycleImage();
         }
     }
 

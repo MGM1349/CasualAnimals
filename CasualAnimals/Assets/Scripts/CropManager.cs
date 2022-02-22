@@ -9,7 +9,7 @@ using UnityEngine;
 public class CropManager : MonoBehaviour
 {
     //public Dictionary<string, GameObject> cropIndex;
-    public List<Field> fields;
+    public List<GameObject> fields;
     private GameObject currentCrop;
     public GameObject cropPrefab;
 
@@ -33,7 +33,7 @@ public class CropManager : MonoBehaviour
     public void CreateCropToField(int fieldNumber, int fieldPosition)
     {
         currentCrop = Instantiate(cropPrefab);
-        fields[fieldNumber].SetCrop(currentCrop.GetComponent<Crop>(), fieldPosition);
+        fields[fieldNumber].GetComponent<Field>().SetCrop(currentCrop.GetComponent<Crop>(), fieldPosition);
     }
 
 
@@ -45,6 +45,6 @@ public class CropManager : MonoBehaviour
     /// <returns>the amount of crop harvested</returns>
     public int RemoveCropToField(int fieldNumber, int fieldPosition)
     {
-        return fields[fieldNumber].RemoveCrop(fieldPosition);
+        return fields[fieldNumber].GetComponent<Field>().RemoveCrop(fieldPosition);
     }
 }

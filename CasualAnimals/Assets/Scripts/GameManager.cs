@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public static GameManager gameInstance;
     [SerializeField] public static StateEnum currentState;
     [SerializeField] public static StateEnum priorState;
+    [SerializeField] public CropManager cropManager;
 
     /// <summary>
     /// Need an Awake for instancing
