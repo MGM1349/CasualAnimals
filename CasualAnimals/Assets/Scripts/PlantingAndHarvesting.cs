@@ -16,6 +16,8 @@ public class PlantingAndHarvesting : MonoBehaviour
     public GameObject player;
     public PlayerScript playerScript;
 
+    private int noCrop = -1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,33 +28,33 @@ public class PlantingAndHarvesting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.E) && cropManager.fields[0].GetCropAtFieldPosition(0) == null)
-        //{
-        //    for (int i = 0; i < 9; i++)
-        //    {
-        //        cropManager.CreateCropToField(0, i);
-        //    }
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && cropManager.fields[0].GetCropAtFieldPosition(0).harvestable)
-        //{
-        //    for (int i = 0; i < 9; i++)
-        //    {
-        //        amountHarvested += cropManager.RemoveCropToField(0, i);
-        //    }
-        //}
+        /*if (Input.GetKeyDown(KeyCode.E) && cropManager.fields[0].GetCropAtFieldPosition(0) == null)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                cropManager.CreateCropToField(0, i);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && cropManager.fields[0].GetCropAtFieldPosition(0).harvestable)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                amountHarvested += cropManager.RemoveCropToField(0, i);
+            }
+        }
 
-        //eggplantsHarvested.text = amountHarvested.ToString();
+        eggplantsHarvested.text = amountHarvested.ToString();*/
 
-        //if(playerScript.CurrentCropStand == -1)
-        //{
-        //    //do nothing
-        //}
-        
+        if(playerScript.CurrentCropStand == -1)
+        {
+            //do nothing
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
-            int[] fieldPosition = CheckCollisionWithField();
+            int[] fieldPosition = { playerScript.CurrentFieldStand, playerScript.CurrentFieldStand };
 
-            if(fieldPosition == null)
+            if(fieldPosition[0] == noCrop || fieldPosition[1] == noCrop)
             {
                 return;
             }
@@ -74,7 +76,7 @@ public class PlantingAndHarvesting : MonoBehaviour
         eggplantsHarvested.text = amountHarvested.ToString();
     }
 
-    public int[] CheckCollisionWithField()
+    /*public int[] CheckCollisionWithField()
     {
         BoxCollider2D playerCollider = player.GetComponent<BoxCollider2D>();
 
@@ -95,9 +97,9 @@ public class PlantingAndHarvesting : MonoBehaviour
         }
 
         return null;
-    }
+    }*/
 
-    public bool CheckCollision(GameObject fieldPosition)
+/*    public bool CheckCollision(GameObject fieldPosition)
     {
         BoxCollider2D playerCollider = player.GetComponent<BoxCollider2D>();
         BoxCollider2D fieldCollider = fieldPosition.GetComponent<BoxCollider2D>();
@@ -105,5 +107,5 @@ public class PlantingAndHarvesting : MonoBehaviour
 
 
         return false;
-    }
+    }*/
 }

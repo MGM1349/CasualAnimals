@@ -10,20 +10,16 @@ public class PlayerScript : MonoBehaviour
     Vector3 movement;
     float moveSpeed = 2.0f;
 
-    int currentCropStand = -1;
+    private int currentCropStand = -1;
+    private int currentFieldStand = -1;
+
+    public int CurrentCropStand { get => currentCropStand; set => currentCropStand = value; }
+    public int CurrentFieldStand { get => currentFieldStand; set => currentFieldStand = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log(GameManager.currentState);
-    }
-
-    public int CurrentCropStand
-    {
-        get
-        {
-            return currentCropStand;
-        }
     }
 
     // Update is called once per frame
@@ -66,19 +62,32 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "CropPlot")
-    //    {
-    //        currentCropStand = int.Parse(collision.name.Substring(collision.name.Length - 1)) - 1;
-    //    }
-    //}
-    //
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "CropPlot")
-    //    {
-    //        currentCropStand = -1;
-    //    }
-    //}
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CropPlot")
+        {
+            currentCropStand = collision.gameObject.GetComponent<CropPlot>().PlotNumber;
+            Debug.Log("CropPlot: " + currentCropStand + "\n");
+        }
+        else if (collision.gameObject.tag == "Field")
+        {
+            currentFieldStand = collision.gameObject.GetComponent<Field>().FieldNumber;
+            Debug.Log("Field: " + currentFieldStand + "\n");
+        }
+
+        Debug.Log("Field: " + currentFieldStand + "\n");
+    }
+
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CropPlot")
+        {
+            currentCropStand = -1;
+        }
+        else if (collision.gameObject.tag == "Field")
+        {
+            currentFieldStand = -1;
+        }
+    }
 }

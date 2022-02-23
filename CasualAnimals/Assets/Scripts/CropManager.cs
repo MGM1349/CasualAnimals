@@ -17,6 +17,11 @@ public class CropManager : MonoBehaviour
     void Start()
     {
         currentCrop = null;
+
+        for (int i = 0; i < fields.Count; i++)
+        {
+            fields[i].GetComponent<Field>().FieldNumber = i;
+        }
     }
 
     // Update is called once per frame

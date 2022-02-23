@@ -10,33 +10,39 @@ using UnityEngine.UI;
 public class Field : MonoBehaviour
 {
     private float growTimer = 0;
+    private int fieldNumber = 0;
     private Crop currentCrop;
-    public List<GameObject> cropImages;
+    public List<GameObject> cropPlots;
     public Sprite soil;
-    public Crop[] fieldPositions;
+    public Crop[] cropsCreated;
     public bool setCropPos = false;
 
-
+    public int FieldNumber { get => fieldNumber; set => fieldNumber = value; }
     public float GrowTimer { get => growTimer; set => growTimer = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        fieldPositions = new Crop[9];
+        cropsCreated = new Crop[9];
+
+        for(int i = 0; i < cropPlots.Count; i++)
+        {
+            cropPlots[i].GetComponent<CropPlot>().PlotNumber = i;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < fieldPositions.Length; i++)
+        for (int i = 0; i < cropsCreated.Length; i++)
         {
-            if(fieldPositions[i] != null)
+            if(cropsCreated[i] != null)
             {
-                cropImages[i].GetComponent<SpriteRenderer>().sprite = fieldPositions[i].GetCurrentCropCycleImage();
+                cropPlots[i].GetComponent<SpriteRenderer>().sprite = cropsCreated[i].GetCurrentCropCycleImage();
             }
             else
             {
-                cropImages[i].GetComponent<SpriteRenderer>().sprite = soil;
+                cropPlots[i].GetComponent<SpriteRenderer>().sprite = soil;
             }
         }
     }
@@ -54,15 +60,15 @@ public class Field : MonoBehaviour
     /// </summary>
     public void UpdateGameImages()
     {
-        for (int i = 0; i < cropImages.Count; i++)
+        for (int i = 0; i < cropPlots.Count; i++)
         {
-            cropImages[i].GetComponent<SpriteRenderer>().sprite = currentCrop.GetCurrentCropCycleImage();
+            cropPlots[i].GetComponent<SpriteRenderer>().sprite = currentCrop.GetCurrentCropCycleImage();
         }
     }
 
     public Crop GetCropAtFieldPosition(int fieldPosition)
     { 
-        return fieldPositions[fieldPosition];
+        return cropsCreated[fieldPosition];
     }
 
     /// <summary>
@@ -72,7 +78,7 @@ public class Field : MonoBehaviour
     /// <param name="fieldPosition">The field position where the crop will be planted at</param>
     public void SetCrop(Crop crop, int fieldPosition)
     {
-        fieldPositions[fieldPosition] = crop;
+        cropsCreated[fieldPosition] = crop;
         crop.Pos = fieldPosition;
     }
 
@@ -83,9 +89,9 @@ public class Field : MonoBehaviour
     /// <returns>The amount a crop was harvested for</returns>
     public int RemoveCrop(int fieldPosition)
     {
-        int cropAmount = fieldPositions[fieldPosition].GetHarvestAmount();
-        fieldPositions[fieldPosition].Delete();
-        fieldPositions[fieldPosition] = null;
+        int cropAmount = cropsCreated[fieldPosition].GetHarvestAmount();
+        cropsCreated[fieldPosition].Delete();
+        cropsCreated[fieldPosition] = null;
         return cropAmount;
     }
 }
