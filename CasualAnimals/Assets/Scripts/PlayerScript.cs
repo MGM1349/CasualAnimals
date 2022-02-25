@@ -7,7 +7,10 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D body;
     public Animator animationRef;
 
-    Vector3 movement;
+    // Flip the Character:
+    Vector2 playerScale;
+
+    Vector2 mov;
     float moveSpeed = 2.0f;
 
     private int currentCropStand = -1;
@@ -20,6 +23,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         Debug.Log(GameManager.currentState);
+        playerScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -36,7 +40,7 @@ public class PlayerScript : MonoBehaviour
 
             case StateEnum.Pause:
                 // Stop all movement
-                movement = new Vector2(0, 0);
+                mov = new Vector2(0, 0);
                 break;
         }
 
@@ -44,22 +48,31 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        //axis movement
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        movement = new Vector3(moveHorizontal, moveVertical, 0f);
-
-        movement = movement * moveSpeed * Time.deltaTime;
-
-        transform.position += movement;
-
-        //flipping for movement
-        if(moveHorizontal != 0)
+        //get axis
+        if(GameManager.currentState != StateEnum.MarketplaceTo)
         {
-            transform.localScale = new Vector2(-moveHorizontal * 1.2f, transform.localScale.y);
-        }
+            mov.x = Input.GetAxisRaw("Horizontal");
+            mov.y = Input.GetAxisRaw("Vertical");
 
+            //movement using rigidbody
+            body.MovePosition(body.position + mov * moveSpeed * Time.fixedDeltaTime);
+
+            //flip scale stuff
+            //Moving right
+            if (mov.x < 0)
+            {
+                playerScale.x = 1.2f;
+            }
+
+            //Moving left
+            if (mov.x > 0)
+            {
+                playerScale.x = -1.2f;
+            }
+
+            //set the scale to the new scale
+            transform.localScale = playerScale;
+        }
     }
 
     void OnTriggerStay2D(Collider2D collision)
@@ -67,17 +80,33 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.tag == "CropPlot")
         {
             currentCropStand = collision.gameObject.GetComponent<CropPlot>().PlotNumber;
-            Debug.Log("CropPlot: " + currentCropStand + "\n");
+            //Debug.Log("CropPlot: " + currentCropStand + "\n");
         }
         else if (collision.gameObject.tag == "Field")
         {
             currentFieldStand = collision.gameObject.GetComponent<Field>().FieldNumber;
-            Debug.Log("Field: " + currentFieldStand + "\n");
+            //Debug.Log("Field: " + currentFieldStand + "\n");
         }
-
-        Debug.Log("Field: " + currentFieldStand + "\n");
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Truck")
+        {
+            GameManager.currentState = StateEnum.MarketplaceTo;
+            GameManager.priorState = StateEnum.Game;
+            GameObject.FindGameObjectWithTag("GoToMarketUI").GetComponent<Canvas>().enabled = true;
+            //Debug.Log("Field: " + currentFieldStand + "\n");
+        }
+
+        if (collision.gameObject.tag == "TruckBack")
+        {
+            GameManager.currentState = StateEnum.MarketplaceFrom;
+            GameManager.priorState = StateEnum.Game;
+            GameObject.FindGameObjectWithTag("BackToFarmUI").GetComponent<Canvas>().enabled = true;
+            //Debug.Log("Field: " + currentFieldStand + "\n");
+        }
+    }
 
     void OnTriggerExit2D(Collider2D collision)
     {

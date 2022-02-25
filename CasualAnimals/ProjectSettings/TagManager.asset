@@ -6,6 +6,10 @@ TagManager:
   tags:
   - CropPlot
   - Field
+  - Truck
+  - TruckBack
+  - GoToMarketUI
+  - BackToFarmUI
   layers:
   - Default
   - TransparentFX
