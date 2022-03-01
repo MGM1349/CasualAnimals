@@ -13,8 +13,11 @@ public class PlantingAndHarvesting : MonoBehaviour
 
     public List<int> cropPosGrowing;
 
-    public GameObject player;
     public PlayerScript playerScript;
+
+    public SeedManager seedManager;
+
+
 
     private int noCrop = -1;
 
@@ -22,13 +25,12 @@ public class PlantingAndHarvesting : MonoBehaviour
     void Start()
     {
         amountHarvested = 0;
-        playerScript = player.GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             int[] fieldPosition = { playerScript.CurrentFieldStand, playerScript.CurrentCropStand  };
 

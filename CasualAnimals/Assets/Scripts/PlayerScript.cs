@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     private int currentCropStand = -1;
     private int currentFieldStand = -1;
 
+    private bool flipped = false;
+
     public int CurrentCropStand { get => currentCropStand; set => currentCropStand = value; }
     public int CurrentFieldStand { get => currentFieldStand; set => currentFieldStand = value; }
 
@@ -55,11 +57,10 @@ public class PlayerScript : MonoBehaviour
         transform.position += movement;
 
         //flipping for movement
-        if(moveHorizontal != 0)
+        if (moveHorizontal != 0)
         {
             transform.localScale = new Vector2(-moveHorizontal * 1.2f, transform.localScale.y);
         }
-
     }
 
     void OnTriggerStay2D(Collider2D collision)

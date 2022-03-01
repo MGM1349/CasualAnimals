@@ -10,8 +10,9 @@ public class CropManager : MonoBehaviour
 {
     //public Dictionary<string, GameObject> cropIndex;
     public List<GameObject> fields;
+    public List<GameObject> crops;
+    private int cropIndex;
     private GameObject currentCrop;
-    public GameObject cropPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,11 @@ public class CropManager : MonoBehaviour
         
     }
 
+    public void SetCropIndex(int vCropIndex)
+    {
+        cropIndex = vCropIndex;
+    }
+
     /// <summary>
     /// Adds a crop from the given crops to a specfic position within a field.
     /// </summary>
@@ -37,7 +43,7 @@ public class CropManager : MonoBehaviour
     /// <param name="fieldPosition">The field position the crop is going into</param>
     public void CreateCropToField(int fieldNumber, int fieldPosition)
     {
-        currentCrop = Instantiate(cropPrefab);
+        currentCrop = Instantiate(crops[cropIndex]);
         fields[fieldNumber].GetComponent<Field>().SetCrop(currentCrop.GetComponent<Crop>(), fieldPosition);
     }
 
